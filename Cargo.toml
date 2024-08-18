@@ -1,0 +1,37 @@
+[package]
+name = "cargo-line-test"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0"
+assert_cmd = "2.0"
+cargo_metadata = "0.18"
+clap = { version = "4.5", features = ["cargo", "derive", "wrap_help"] }
+ctrlc = "3.4"
+unidiff = "0.3"
+hex = "0.4"
+once_cell = "1.19"
+lcov = "0.8"
+remain = "0.2"
+serde_json = "1.0"
+sha2 = "0.10"
+tempfile = "3.12"
+
+[dev-dependencies]
+regex = "1.10"
+
+[lints.rust.unexpected_cfgs]
+level = "deny"
+check-cfg = ["cfg(dylint_lib, values(any()))"]
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+
+[workspace.metadata.dylint]
+libraries = [
+    { git = "https://github.com/trailofbits/dylint", pattern = "examples/general" },
+    { git = "https://github.com/trailofbits/dylint", pattern = "examples/supplementary" },
+    # { git = "https://github.com/trailofbits/dylint", pattern = "examples/restriction/inconsistent_qualification" },
+    { git = "https://github.com/trailofbits/dylint", pattern = "examples/restriction/misleading_variable_name" },
+]
