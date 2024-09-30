@@ -19,7 +19,7 @@ sha2 = "0.10"
 tempfile = "3.13"
 
 [dev-dependencies]
-regex = "1.10"
+regex = "1.11"
 
 [lints.rust.unexpected_cfgs]
 level = "deny"
