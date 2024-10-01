@@ -1,0 +1,95 @@
+name: CI
+
+on:
+  merge_group:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  maybe-expedite:
+    outputs:
+      value: ${{ steps.expedite.outputs.value }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Log github refs
+        run: |
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          echo 'github.ref: ${{ github.ref }}' >> "$GITHUB_STEP_SUMMARY"
+          echo 'github.sha: ${{ github.sha }}' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if merging an up-to-date branch
+        if: ${{ github.event_name == 'merge_group' }}
+        id: expedite
+        run: |
+          N="$(expr "${{ github.ref }}" : '.*-\([0-9]\+\)-[^-]*$')"
+          BASE_SHA="$(gh api /repos/${{ github.repository }}/pulls/"$N" | jq -r '.base.sha')"
+          if git diff --quiet ${{ github.event.merge_group.base_sha }} "$BASE_SHA"; then
+            echo "value=1" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+  test:
+    needs: [maybe-expedite]
+
+    if: ${{ ! needs.maybe-expedite.outputs.value }}
+
+    strategy:
+      fail-fast: ${{ github.event_name == 'merge_group' }}
+      matrix:
+        environment: [ubuntu-latest, macos-latest]
+
+    runs-on: ${{ matrix.environment }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Install tools
+        run: |
+          rustup install nightly
+          rustup +nightly component add clippy
+          cargo install cargo-dylint dylint-link || true
+          cargo install cargo-hack               || true
+          cargo install cargo-udeps --locked     || true
+          cargo install group-runner             || true
+
+      - name: Build
+        run: cargo test --no-run
+
+      - name: Test
+        run: cargo test --config "target.'cfg(all())'.runner = 'group-runner'"
+
+  all-checks:
+    needs: [test]
+
+    if: ${{ always() }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check results
+        if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+        run: exit 1
