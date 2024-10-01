@@ -1,7 +1,12 @@
 use assert_cmd::assert::OutputAssertExt;
 use regex::Regex;
-use std::{fs::read_to_string, path::Path, process::Command};
+use std::{env::remove_var, fs::read_to_string, path::Path, process::Command};
 use tempfile::tempdir;
+
+#[ctor::ctor]
+fn initialize() {
+    remove_var("CARGO_TERM_COLOR");
+}
 
 #[test]
 fn clippy() {
