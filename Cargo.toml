@@ -19,6 +19,7 @@ sha2 = "0.10"
 tempfile = "3.13"
 
 [dev-dependencies]
+ctor = "0.2"
 regex = "1.11"
 
 [lints.rust.unexpected_cfgs]
