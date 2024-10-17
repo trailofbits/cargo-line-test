@@ -1,7 +1,11 @@
 [package]
 name = "cargo-line-test"
 version = "0.1.0"
+authors = ["Samuel Moelius <sam@moeli.us>"]
+description = "Run tests by the lines they exercise"
 edition = "2021"
+license = "AGPL-3.0"
+repository = "https://github.com/trailofbits/cargo-line-test"
 
 [dependencies]
 anyhow = "1.0"
