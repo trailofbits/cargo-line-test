@@ -103,12 +103,12 @@ fn package_crates() -> Result<PackageCrateMap<()>> {
     let mut package_crates = PackageCrateMap::default();
     for package in metadata.packages {
         for target in package.targets {
-            let krate = if target.test && package.name != target.name {
-                Some(target.name)
-            } else if target.is_bin() {
+            let krate = if target.is_bin() {
                 Some(format!("bin:{}", target.name))
             } else if target.is_lib() {
                 Some(String::from("lib"))
+            } else if target.is_test() {
+                Some(target.name)
             } else {
                 None
             };
