@@ -23,12 +23,15 @@ pub(super) fn read() -> Result<Db> {
 
 pub(super) fn read_package_crate_test_map() -> Result<PackageCrateMap<Vec<Test>>> {
     let mut package_crate_test_map = PackageCrateMap::<Vec<Test>>::default();
-    for result in read_dir("line-test.db/packages")? {
-        let entry = result?;
-        let path = entry.path();
-        let file_stem = path.file_stem_utf8(None)?;
-        let crate_map = read_package_dir(&path)?;
-        package_crate_test_map.insert(file_stem.to_owned(), crate_map);
+    let path = Path::new("line-test.db/packages");
+    if path.try_exists()? {
+        for result in read_dir(path)? {
+            let entry = result?;
+            let path = entry.path();
+            let file_stem = path.file_stem_utf8(None)?;
+            let crate_map = read_package_dir(&path)?;
+            package_crate_test_map.insert(file_stem.to_owned(), crate_map);
+        }
     }
     Ok(package_crate_test_map)
 }
