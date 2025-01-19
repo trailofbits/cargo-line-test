@@ -1,6 +1,6 @@
 [package]
 name = "cargo-line-test"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Samuel Moelius <sam@moeli.us>"]
 description = "Run tests by the lines they exercise"
 edition = "2021"
