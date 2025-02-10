@@ -2,6 +2,7 @@ use anyhow::{anyhow, bail, ensure, Result};
 use clap::{crate_version, ArgAction, Parser};
 use std::{
     collections::{BTreeMap, HashSet},
+    fmt::Write,
     io::{read_to_string, stdin, BufRead, BufReader},
     ops::Range,
     path::Path,
@@ -377,7 +378,7 @@ fn warn_about_uncovered_lines(path_line_map: PathLineMap) -> Result<()> {
             } else {
                 format!("{start}-{}", end - 1)
             };
-            msg.push_str(&format!("    {path}:{s}\n"));
+            writeln!(msg, "    {path}:{s}").unwrap();
         }
     }
 
