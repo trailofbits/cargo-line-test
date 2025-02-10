@@ -36,7 +36,7 @@ pub(crate) fn build() -> Result<()> {
         if opts::get().missing_only {
             bail!("line-test.db does not exist");
         }
-    };
+    }
 
     debug_assert_eq!(path.try_exists()?, opts::get().missing_only);
 

@@ -171,7 +171,7 @@ fn run_tests() -> Result<()> {
     } else if line_dash_used {
         let mut other = read_line_specifications()?;
         path_line_map.append(&mut other);
-    };
+    }
 
     let db = db::read()?;
 
