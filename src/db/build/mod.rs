@@ -126,7 +126,7 @@ fn package_crates() -> Result<PackageCrateMap<()>> {
 // smoelius: Based on:
 // https://github.com/trailofbits/test-fuzz/blob/f4f14f0b323cc8457b6a3c6d0187fadb0e477628/cargo-test-fuzz/src/lib.rs#L442-L467
 
-#[cfg_attr(dylint_lib = "supplementary", allow(commented_code))]
+#[cfg_attr(dylint_lib = "supplementary", allow(commented_out_code))]
 fn package_crate_tests(package: &str, krate: &str) -> Result<Vec<Test>> {
     let mut command = run::cargo_command(package, krate, None);
     // smoelius: For now, the outputs of the commands to build the tests are shown, which I think I

@@ -96,7 +96,7 @@ impl<T: Add<Output = T> + Clone + One + Ord> RangeSet<T> {
     }
 }
 
-#[cfg_attr(dylint_lib = "supplementary", allow(commented_code))]
+#[cfg_attr(dylint_lib = "supplementary", allow(commented_out_code))]
 fn unionable<T: Add<Output = T> + Clone + One + Ord>(x: &Range<T>, y: &Range<T>) -> bool {
     if x.start <= y.start {
         x.end >= y.start
