@@ -24,7 +24,7 @@ tempfile = "3.23"
 
 [dev-dependencies]
 ctor = "0.5"
-regex = "1.11"
+regex = "1.12"
 
 [lints.rust.unexpected_cfgs]
 level = "deny"
