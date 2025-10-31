@@ -1,11 +1,9 @@
-use assert_cmd::cargo::CommandCargoExt;
-use std::process::Command;
+use assert_cmd::cargo::cargo_bin_cmd;
 
 #[test]
 fn proc_macro() {
-    let mut command = Command::cargo_bin(env!("CARGO_PKG_NAME")).unwrap();
+    let mut command = cargo_bin_cmd!(env!("CARGO_PKG_NAME"));
     command.args(["line-test", "--build"]);
     command.current_dir("fixtures/attr");
-    let status = command.status().unwrap();
-    assert!(status.success());
+    command.assert().success();
 }
