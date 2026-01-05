@@ -10,7 +10,7 @@ repository = "https://github.com/trailofbits/cargo-line-test"
 [dependencies]
 anyhow = "1.0"
 assert_cmd = "2.1"
-cargo_metadata = "0.19"
+cargo_metadata = "0.23"
 clap = { version = "4.5", features = ["cargo", "derive", "wrap_help"] }
 ctrlc = "3.5"
 unidiff = "0.4"
