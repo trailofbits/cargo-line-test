@@ -114,7 +114,7 @@ fn package_crates() -> Result<PackageCrateMap<()>> {
             };
             if let Some(krate) = krate {
                 package_crates
-                    .entry(package.name.clone())
+                    .entry(package.name.to_string())
                     .or_default()
                     .insert(krate, ());
             }
