@@ -59,7 +59,7 @@ impl Progress {
         assert!(self.i < self.n || msg.is_empty());
         let width_n = self.width_n;
         let percent = format!("({}%)", (self.i * 100).checked_div(self.n).unwrap_or(100));
-        let formatted_msg = format!("{:>width_n$}/{} {percent:>5} {msg}", self.i, self.n,);
+        let formatted_msg = format!("{:>width_n$}/{} {percent:>5} {msg}", self.i, self.n);
         let width_to_overwrite = self.width_prev.saturating_sub(formatted_msg.len());
         eprint!("{formatted_msg}{:width_to_overwrite$}\r", "");
         std::io::stderr()
