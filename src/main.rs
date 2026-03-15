@@ -318,7 +318,7 @@ fn warn_about_paths(paths_needing_warning: PathsNeedingWarning) -> Result<()> {
     } = paths_needing_warning;
 
     if !nonexistent.is_empty() {
-        bail!("the following paths do not exist: {nonexistent:#?}",);
+        bail!("the following paths do not exist: {nonexistent:#?}");
     }
 
     if !uncovered.is_empty() {
