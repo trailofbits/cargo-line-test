@@ -11,7 +11,7 @@ repository = "https://github.com/trailofbits/cargo-line-test"
 anyhow = "1.0"
 assert_cmd = "2.2"
 cargo_metadata = "0.23"
-clap = { version = "4.5", features = ["cargo", "derive", "wrap_help"] }
+clap = { version = "4.6", features = ["cargo", "derive", "wrap_help"] }
 ctrlc = "3.5"
 unidiff = "0.4"
 hex = "0.4"
