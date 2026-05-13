@@ -54,13 +54,13 @@ jobs:
           cargo install cargo-hack               || true
           cargo install cargo-llvm-cov           || true
           cargo install cargo-udeps --locked     || true
-          cargo install group-runner             || true
+          cargo install unset                    || true
 
       - name: Build
         run: cargo test --no-run
 
       - name: Test
-        run: cargo test --config "target.'cfg(all())'.runner = 'group-runner'"
+        run: cargo test --config "target.'cfg(all())'.runner = 'unset'"
 
   all-checks:
     needs: [test]
